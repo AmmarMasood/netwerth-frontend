@@ -1,0 +1,48 @@
+.navbar-container{
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: space-between;
+padding: 10px 100px;
+}
+.navbar-container-options{
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+}
+
+.navbar-container h4{
+   font-size: 20px;
+   margin: 15px 0;
+}
+
+.navbar-container-options span{
+margin-right: 20px;
+text-transform: uppercase;
+cursor: pointer;
+
+}
+
+.user-dashboard-navbar-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+.user-dashboard-navbar-container  h3 {
+font-style: normal;
+font-weight: 700;
+font-size: 40px;
+line-height: 40px;
+letter-spacing: 0.01em;
+color: #232358;
+padding: 0;
+margin: 0;
+}
+
+.user-dashboard-navbar-container--second{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 220px;
+}

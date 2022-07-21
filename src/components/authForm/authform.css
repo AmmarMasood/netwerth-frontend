@@ -1,0 +1,21 @@
+.authform-container{
+overflow: auto;
+background: #FFFFFF;
+box-shadow: 2px 2px 20px rgba(19, 36, 77, 0.1);
+border-radius: 15px;
+width: 500px;
+margin: 0 auto;
+padding: 20px;
+margin-top: 30px;
+}
+
+.authform-container h1{
+    color: #002349;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.authform-container p{
+    
+    color: #002349;
+
+}

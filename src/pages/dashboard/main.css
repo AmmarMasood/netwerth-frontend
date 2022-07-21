@@ -1,0 +1,23 @@
+.ant-layout-sider{
+     background: #1373FB !important;
+     width: 210px !important;
+     min-width: 210px !important;
+     color: #fff !important;
+     
+}
+.ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub{
+    background: #1373FB !important;
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 700;
+}
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected{
+     background: #0760D8;
+}
+.ant-layout-sider-zero-width-trigger{
+    background: #0760D8;
+}
+.ant-layout-header{
+    background: transparent !important;
+    border: 2px solid red;
+}

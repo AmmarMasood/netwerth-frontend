@@ -1,0 +1,29 @@
+.topcard-container{
+    background: #FFFFFF;
+    box-shadow: 2px 2px 8px rgba(99, 99, 252, 0.08);
+    border-radius: 10px;
+    display: flex;
+    padding: 10px 25px;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+}
+
+.topcard-container > div > span{
+    font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 16px;
+letter-spacing: 0.01em;
+color: #8596A5;
+}
+
+.topcard-container > div > h4{
+    font-weight: 600;
+font-size: 32px;
+line-height: 32px;
+letter-spacing: 0.01em;
+
+color: #232358;
+}

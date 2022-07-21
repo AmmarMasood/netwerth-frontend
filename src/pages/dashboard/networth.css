@@ -1,0 +1,16 @@
+.dashboard-networth-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 20px;
+}
+.networth-bottom-card{
+    margin-top: 15px;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 10px rgba(19, 36, 77, 0.08);
+    border-radius: 10px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-gap: 20px;
+    min-height: 300px;
+}

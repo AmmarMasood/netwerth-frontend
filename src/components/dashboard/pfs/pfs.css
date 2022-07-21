@@ -1,0 +1,20 @@
+.pfs-option-container{
+   display: grid;
+   grid-template-columns: 0.03fr 1fr;
+   align-items: center;
+   margin-top: 20px;
+}
+
+.pfs-option{
+background: #fff;
+padding: 10px;
+}
+
+.question-text{
+    color: #0C1F3B;font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0;
+    padding: 8px;
+}

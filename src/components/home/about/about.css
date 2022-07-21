@@ -1,0 +1,16 @@
+.ha-container{
+    background: #EAF5FE;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    padding: 80px 100px;
+
+}
+.ha-text-container{
+
+}
+
+.ha-text-container h2{
+  font-size: 40px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}

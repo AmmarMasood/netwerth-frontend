@@ -1,0 +1,62 @@
+.assetCard-container{
+/* border: 2px solid red; */
+
+}
+
+.assetCard-top{
+    /* border: 2px solid blue; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+.assetCard-top > div > h2 {
+    font-weight: 700;
+font-size: 24px;
+line-height: 24px;
+letter-spacing: 0.01em;
+color: #312B2B;
+}
+.assetCard-top > div{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   /* border: 2px solid green; */
+  
+}
+.assetCard-top > div>img {
+    cursor: pointer;
+}
+
+.assetCard-options{
+    /* border: 2px solid green; */
+}
+.assetCard-option{
+    /* border: 2px solid yellow; */
+    margin-bottom: 10px;
+}
+
+.assetCard-option > h3{
+    font-weight: 700;
+font-size: 14px;
+line-height: 14px;
+
+letter-spacing: 0.01em;
+
+color: #312B2B;
+}
+
+.assetCard-option-inner{
+    /* border: 2px solid black; */
+background: #F2F9FF;
+/* border-radius: 5px; */
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 10px;
+}
+
+.assetCard-option-inner-options{
+    display: flex;
+    align-items: center;
+}
