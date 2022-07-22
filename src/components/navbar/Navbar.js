@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { userInfoContext } from "../../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../button/Button";
+import LogoImage from "../../assets/images/logo.svg";
 import "./navbar.css";
 
 function Navbar() {
@@ -10,11 +11,12 @@ function Navbar() {
 
   const onClickDemo = () => {
     console.log("on click demo");
+    navigate("/dashboard", { replace: true });
   };
   return (
     <>
       <div className="navbar-container">
-        <h4>Logo Here</h4>
+        <img src={LogoImage} alt="" />
         <div className="navbar-container-options">
           <span>Features</span>
           <span>About</span>
@@ -27,8 +29,16 @@ function Navbar() {
             />
           ) : (
             <>
-              <span>Sign up</span>
-              <span>Log In</span>
+              <span>
+                <Link to={"/login"} style={{ color: "inherit" }}>
+                  Sign up
+                </Link>
+              </span>
+              <span>
+                <Link to={"/signup"} style={{ color: "inherit" }}>
+                  Log In
+                </Link>
+              </span>
               <Button
                 text="FREE DEMO"
                 onClick={onClickDemo}

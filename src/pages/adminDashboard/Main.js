@@ -15,8 +15,11 @@ const Main = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (localStorage.getItem("role") !== "admin") {
-      logout(navigate);
+    if (
+      !localStorage.getItem("token") ||
+      localStorage.getItem("role") !== "admin"
+    ) {
+      navigate("/", { replace: true });
     }
   }, []);
   return (

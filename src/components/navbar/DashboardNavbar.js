@@ -31,17 +31,19 @@ function DashboardNavbar({ heading, subHeading, fromAdmin }) {
         <h3>{heading}</h3>
         {subHeading && <h4>{subHeading}</h4>}
       </div>
-      <div className="user-dashboard-navbar-container--second">
-        <div>{!fromAdmin && <img src={VideoTutorial} alt="tutorial" />}</div>
-        <div>
-          <Dropdown overlay={menu} trigger={["click"]}>
-            <div style={{ cursor: "pointer" }}>
-              <Avatar size={46} icon={<UserOutlined />} />
-              <DownOutlined style={{ paddingLeft: "5px" }} />
-            </div>
-          </Dropdown>
+      {localStorage.getItem("token") && (
+        <div className="user-dashboard-navbar-container--second">
+          <div>{!fromAdmin && <img src={VideoTutorial} alt="tutorial" />}</div>
+          <div>
+            <Dropdown overlay={menu} trigger={["click"]}>
+              <div style={{ cursor: "pointer" }}>
+                <Avatar size={46} icon={<UserOutlined />} />
+                <DownOutlined style={{ paddingLeft: "5px" }} />
+              </div>
+            </Dropdown>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

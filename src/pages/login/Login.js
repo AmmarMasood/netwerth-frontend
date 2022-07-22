@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Logo from "../../assets/images/logo.svg";
 import AuthForm from "../../components/authForm/AuthForm";
 import "./login.css";
@@ -13,6 +13,16 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useContext(userInfoContext);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      if (localStorage.getItem("role") === "user") {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/admin/dashboard", { replace: true });
+      }
+    }
+  }, []);
 
   const onComplete = async (value) => {
     const result = await login(value);

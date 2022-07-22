@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PleaseLogin from "../../components/dashboard/PleaseLogin";
 import ModalVideo from "../../components/dashboard/videoTutorial/ModalVideo";
 import VideoBox from "../../components/dashboard/videoTutorial/VideoBox";
 import { getAllVideos } from "../../services/videos";
@@ -16,14 +17,16 @@ function VideoTutorial() {
     }
   };
   React.useEffect(() => {
-    getAllVideosFromBackend();
+    if (localStorage.getItem("token")) {
+      getAllVideosFromBackend();
+    }
   }, []);
 
   const onVideoBoxClick = (link) => {
     setVideo(link);
     setOpen(true);
   };
-  return (
+  return localStorage.getItem("token") ? (
     <div>
       <div
         style={{
@@ -44,6 +47,8 @@ function VideoTutorial() {
       </div>
       <ModalVideo visible={isOpen} setVisible={setOpen} videoUrl={video} />
     </div>
+  ) : (
+    <PleaseLogin pageName="video tutorials" />
   );
 }
 
