@@ -12,6 +12,7 @@ function MyModal({
   title,
   subtitle,
   handleCompleted,
+  onAdvanceModalCompleteFromBack,
   simple,
   // new category controls
   onAddNewCategory,
@@ -29,7 +30,10 @@ function MyModal({
     }
   };
 
-  const onAdvanceModalComplete = () => {};
+  const onAdvanceModalComplete = () => {
+    // console.log(modalFields);
+    onAdvanceModalCompleteFromBack(modalFields);
+  };
   return (
     <Modal
       visible={visible}

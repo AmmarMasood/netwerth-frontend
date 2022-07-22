@@ -6,6 +6,7 @@ import EditIcon from "../../../assets/images/p-edit-icon.svg";
 import DeleteIcon from "../../../assets/images/delete-icon.svg";
 import SmallPlayIcon from "../../../assets/images/small-play-icon.svg";
 import MyModal from "../../modal/Modal";
+import { createAsset, getAssetByUserId } from "../../../services/asset";
 
 function AssetCard() {
   const [showModal, setShowModal] = useState(false);
@@ -13,42 +14,52 @@ function AssetCard() {
   const [addNewSubCategoryModal, setAddNewSubCategoryModal] = useState(false);
   const [total, setTotal] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
-  const [types, setTypes] = useState([
-    {
-      categoryName: "Example Category",
-      fields: [
-        {
-          fieldName: "Car",
-          value: 6500,
-        },
-        {
-          fieldName: "Car2",
-          value: 6500,
-        },
-      ],
-    },
-    {
-      categoryName: "Example Category2",
-      fields: [
-        {
-          fieldName: "Car3",
-          value: 6500,
-        },
-        {
-          fieldName: "Car4s",
-          value: 6500,
-        },
-      ],
-    },
-  ]);
+  const [types, setTypes] = useState([]);
   const [modalFields, setModalFields] = useState([]);
 
+  const getUserAssetFromBackend = async () => {
+    const res = await getAssetByUserId(localStorage.getItem("id"));
+    if (
+      res &&
+      res.data &&
+      res.data.data &&
+      res.data.data.foundAsset &&
+      res.data.data.foundAsset.assets
+    ) {
+      const data = res.data.data.foundAsset.assets;
+      const g = data.map((d) => ({
+        categoryName: d.categoryName,
+        id: d._id,
+        fields: d.fields.map((g) => ({
+          value: g.value,
+          fieldName: g.fieldName,
+          id: g._id,
+        })),
+      }));
+      setTypes(g);
+    }
+  };
+
   useEffect(() => {
-    const total = types
-      .map((t) => t.fields.map((t) => t.value))
-      .flat(1)
-      .reduce((prev, current) => prev + current);
-    setTotal(total);
+    if (types && types.length > 0) {
+      const total = types
+        .filter((f) => f.fields.length > 0)
+        .map((t) => t.fields.map((t) => t.value))
+        .flat(1)
+        .reduce((prev, current) => parseInt(prev) + parseInt(current));
+
+      setTotal(total);
+      setModalFields(types);
+      // console.log(total);
+    }
+
+    // setTotal(total);
+  }, [types]);
+
+  useEffect(() => {
+    if (localStorage.getItem("id")) {
+      getUserAssetFromBackend();
+    }
   }, []);
 
   const onAddNewCategoryCompleted = () => {
@@ -132,6 +143,26 @@ function AssetCard() {
     });
     setModalFields(l);
   };
+
+  const createAssets = async (values) => {
+    console.log("ammar", values);
+    const res = await createAsset({
+      user: localStorage.getItem("id"),
+      assets: values.map((c) => ({
+        ...c,
+        fields: c.fields.map((d) => ({
+          fieldName: d.fieldName,
+          value: d.value,
+        })),
+      })),
+    });
+    if (res) {
+      if (localStorage.getItem("id")) {
+        getUserAssetFromBackend();
+      }
+    }
+    console.log(res, "ammar");
+  };
   return (
     <div className="assetCard-container">
       <MyModal
@@ -140,6 +171,8 @@ function AssetCard() {
         simple={false}
         title="Assets"
         modalFields={modalFields}
+        handleCompleted={createAssets}
+        onAdvanceModalCompleteFromBack={createAssets}
         // adding new category functionality
         onAddNewCategory={() => setAddNewCategoryModal(true)}
         addNewCategoryText="Add a new Asset category"

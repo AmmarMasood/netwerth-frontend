@@ -17,16 +17,16 @@ function NetWorth() {
   return (
     <div>
       <div className="dashboard-networth-container">
-        <TopCard heading="Assets" value={5} icon={AssetIcon} />
+        <TopCard heading="Assets" value={""} icon={AssetIcon} />
         <TopCard
           heading="Liabilities"
-          value={8}
+          value={""}
           icon={LiabilityIcon}
           imageIcon={SubtractIcon}
         />
         <TopCard
           heading="Net Worth"
-          value={"£500"}
+          value={""}
           icon={WorthIcon}
           imageIcon={EqualIcon}
         />
@@ -36,7 +36,7 @@ function NetWorth() {
             <h4
               style={{ fontSize: "16px", color: "#312B2B", fontWeight: "700" }}
             >
-              £100 by Jan 2025
+              ""
             </h4>
             <span style={{ fontSize: "12px", color: "#FD9125" }}>
               Share with friends
