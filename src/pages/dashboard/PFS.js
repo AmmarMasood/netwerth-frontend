@@ -19,7 +19,9 @@ const PFS = () => {
   const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
-    getPfsByUserIdFromBackend();
+    if (localStorage.getItem("id")) {
+      getPfsByUserIdFromBackend();
+    }
   }, []);
 
   const getPfsByUserIdFromBackend = async () => {

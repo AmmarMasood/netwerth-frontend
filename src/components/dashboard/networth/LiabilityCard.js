@@ -11,7 +11,7 @@ import {
   getLiabilityByUserId,
 } from "../../../services/liability";
 
-function LiabilitiesCard() {
+function LiabilitiesCard({ setTotalLiability }) {
   const [showModal, setShowModal] = useState(false);
   const [addNewCategoryModal, setAddNewCategoryModal] = useState(false);
   const [addNewSubCategoryModal, setAddNewSubCategoryModal] = useState(false);
@@ -52,6 +52,7 @@ function LiabilitiesCard() {
         .reduce((prev, current) => parseInt(prev) + parseInt(current));
       setTotal(total);
       setModalFields(types);
+      setTotalLiability(total);
       console.log(total);
     }
 
@@ -158,11 +159,7 @@ function LiabilitiesCard() {
         })),
       })),
     });
-    if (res) {
-      if (localStorage.getItem("id")) {
-        getUserLiabilityFromBackend();
-      }
-    }
+    getUserLiabilityFromBackend();
     console.log(res, "ammar");
   };
 

@@ -23,7 +23,7 @@ export const getAssetByUserId = (id) =>
     .get(`${url}/assetRoutes/getAssetByUser/${id}`)
     .then((res) => res)
     .catch((e) => {
-      message.error(
-        e.response?.data?.header?.message || "Error while creating pfs"
-      );
+      //   message.error(
+      //     e.response?.data?.header?.message || "Error while creating pfs"
+      //   );
     });

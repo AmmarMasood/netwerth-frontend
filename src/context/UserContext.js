@@ -5,6 +5,7 @@ export const emptyUserConstants = {
   _id: "",
   name: "",
   email: "",
+  goalNetWorth: "",
 };
 
 const UserStore = ({ children }) => {

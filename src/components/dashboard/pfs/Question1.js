@@ -4,6 +4,8 @@ import Option from "./Option";
 import "./pfs.css";
 import Button from "../../button/Button";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { formatTimeStr } from "antd/lib/statistic/utils";
+import { format } from "date-fns";
 
 function Question1({ setAnswers, answers, current, steps, next, prev }) {
   const [selectedOption1, setSelectedOption1] = useState(false);
@@ -80,10 +82,14 @@ function Question1({ setAnswers, answers, current, steps, next, prev }) {
           }
           childern={
             <div style={{ padding: "10px" }}>
-              <DatePicker
-                onChange={(e) => setOption1Answer(e)}
-                value={option1Answer}
-              />
+              {option1Answer ? (
+                <div style={{ marginBottom: "10px" }}>
+                  Selected Date: {format(new Date(option1Answer), "dd/MM/yyyy")}
+                </div>
+              ) : (
+                ""
+              )}
+              <DatePicker onChange={(e) => setOption1Answer(e)} />
             </div>
           }
         />

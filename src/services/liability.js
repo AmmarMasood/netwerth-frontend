@@ -25,7 +25,7 @@ export const getLiabilityByUserId = (id) =>
     .get(`${url}/liabilityRoutes/getLiabilityByUser/${id}`)
     .then((res) => res)
     .catch((e) => {
-      message.error(
-        e.response?.data?.header?.message || "Error while creating Liability"
-      );
+      //   message.error(
+      //     e.response?.data?.header?.message || "Error while creating Liability"
+      //   );
     });

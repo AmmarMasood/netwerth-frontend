@@ -26,7 +26,7 @@ export const logout = (navigate) => {
   localStorage.removeItem("token");
   localStorage.removeItem("id");
   localStorage.removeItem("role");
-  // navigate("/login", { replace: true });
+  navigate("/login", { replace: true });
 };
 export const getCurrentUser = (navigate, setUserInfo) => {
   if (localStorage.getItem("token") && localStorage.getItem("id")) {
@@ -45,6 +45,8 @@ export const getCurrentUser = (navigate, setUserInfo) => {
         );
       });
   } else {
-    logout(navigate);
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    localStorage.removeItem("role");
   }
 };

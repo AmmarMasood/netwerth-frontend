@@ -9,9 +9,23 @@ import LinkedInIcon from "../../assets/images/linkedin-icon.svg";
 import { login } from "../../services/auth";
 import { userInfoContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import GoogleLogin from "react-google-login";
+import { useLinkedIn } from "react-linkedin-login-oauth2";
+import TwitterLogin from "react-twitter-login";
 
 function Login() {
   const navigate = useNavigate();
+  const { linkedInLogin } = useLinkedIn({
+    clientId: "86vhj2q7ukf83q",
+    redirectUri: `${window.location.origin}/linkedin`, // for Next.js, you can use `${typeof window === 'object' && window.location.origin}/linkedin`
+    onSuccess: (code) => {
+      console.log(code);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
   const [userInfo, setUserInfo] = useContext(userInfoContext);
 
   useEffect(() => {
@@ -39,6 +53,17 @@ function Login() {
       localStorage.setItem("id", result.data.data._id);
     }
   };
+
+  // facebook logician
+  const responseFacebook = (response) => {
+    console.log(response);
+  };
+  const responseGoogle = (response) => {
+    console.log(response);
+  };
+  const resposeTwitter = (err, data) => {
+    console.log(err, data);
+  };
   return (
     <div className="auth-page-container">
       <img src={Logo} alt="logo" />
@@ -56,10 +81,50 @@ function Login() {
               marginTop: "10px",
             }}
           >
-            <img src={FacebookIcon} alt="" style={{ marginRight: "10px" }} />
-            <img src={GoogleIcon} alt="" style={{ marginRight: "10px" }} />
-            <img src={LinkedInIcon} alt="" style={{ marginRight: "10px" }} />
-            <img src={TwitterIcon} alt="" />
+            <FacebookLogin
+              appId="1088597931155576"
+              autoLoad={false}
+              fields="name,email,picture"
+              render={(renderProps) => (
+                <img
+                  onClick={() => renderProps.onClick()}
+                  src={FacebookIcon}
+                  alt=""
+                  style={{ marginRight: "10px", cursor: "pointer" }}
+                />
+              )}
+              callback={responseFacebook}
+            />
+            <GoogleLogin
+              clientId="23840145614-brgdeoloiil9teouiih2na04r8u2iouc.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <img
+                  onClick={renderProps.onClick}
+                  src={GoogleIcon}
+                  alt=""
+                  style={{ marginRight: "10px", cursor: "pointer" }}
+                />
+              )}
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            />
+            <img
+              src={LinkedInIcon}
+              alt=""
+              style={{ marginRight: "10px", cursor: "pointer" }}
+              onClick={linkedInLogin}
+            />{" "}
+            <TwitterLogin
+              authCallback={resposeTwitter}
+              consumerKey={"Dt5othFDrC8wDAhdCXxbEOdEk"}
+              consumerSecret={
+                "LC8oIqoLH2ZzyHYaCnXkB7QYUvSa7re2dN92hx20pm1V2ZjK8Q"
+              }
+            >
+              {" "}
+              <img src={TwitterIcon} alt="" />
+            </TwitterLogin>
           </div>
         }
       />

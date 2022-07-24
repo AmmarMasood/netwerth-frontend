@@ -30,12 +30,12 @@ function Navbar() {
           ) : (
             <>
               <span>
-                <Link to={"/login"} style={{ color: "inherit" }}>
+                <Link to={"/signup"} style={{ color: "inherit" }}>
                   Sign up
                 </Link>
               </span>
               <span>
-                <Link to={"/signup"} style={{ color: "inherit" }}>
+                <Link to={"/login"} style={{ color: "inherit" }}>
                   Log In
                 </Link>
               </span>

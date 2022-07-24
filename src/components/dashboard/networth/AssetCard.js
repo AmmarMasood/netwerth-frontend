@@ -8,7 +8,7 @@ import SmallPlayIcon from "../../../assets/images/small-play-icon.svg";
 import MyModal from "../../modal/Modal";
 import { createAsset, getAssetByUserId } from "../../../services/asset";
 
-function AssetCard() {
+function AssetCard({ setTotalAsset }) {
   const [showModal, setShowModal] = useState(false);
   const [addNewCategoryModal, setAddNewCategoryModal] = useState(false);
   const [addNewSubCategoryModal, setAddNewSubCategoryModal] = useState(false);
@@ -49,6 +49,7 @@ function AssetCard() {
         .reduce((prev, current) => parseInt(prev) + parseInt(current));
 
       setTotal(total);
+      setTotalAsset(total);
       setModalFields(types);
       // console.log(total);
     }
@@ -156,11 +157,7 @@ function AssetCard() {
         })),
       })),
     });
-    if (res) {
-      if (localStorage.getItem("id")) {
-        getUserAssetFromBackend();
-      }
-    }
+    getUserAssetFromBackend();
     console.log(res, "ammar");
   };
   return (
