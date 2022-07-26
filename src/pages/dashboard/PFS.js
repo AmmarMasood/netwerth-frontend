@@ -47,7 +47,17 @@ const PFS = () => {
 
   const createANewPfs = async (a) => {
     // console.log(answers);
-    const res = await createPfs({ user: userInfo._id, questions: a });
+    const res = await createPfs({
+      user: localStorage.getItem("id"),
+      questions: a.map((j) => ({
+        ...j,
+        expenses: j.expenses.map((l) => ({
+          name: l.name,
+          value: l.value,
+          _id: typeof l._id === "number" ? undefined : l._id,
+        })),
+      })),
+    });
     if (res) {
       setCurrent(0);
     }

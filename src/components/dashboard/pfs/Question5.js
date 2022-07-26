@@ -17,16 +17,14 @@ function Question5({ setAnswers, answers, current, steps, next, prev }) {
 
   useEffect(() => {
     if (answers[4]) {
-      if (answers[4].answerIndex === 0) {
-        setSelectedOption1(true);
-        setOption1Answers(answers[4].expenses);
-      } else if (answers[4].answerIndex === 1) {
-        setSelectedOption2(true);
-      } else if (answers[4].answerIndex === 2) {
-        setSelectedOption3(true);
-      } else {
-        setSelectedOption4(true);
-      }
+      setSelectedOption1(true);
+      setOption1Answers(answers[4].expenses);
+
+      setSelectedOption2(true);
+
+      setSelectedOption3(true);
+
+      setSelectedOption4(true);
     }
   }, [answers]);
 
@@ -48,9 +46,6 @@ function Question5({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption1 = (v) => {
     if (v.target.checked) {
       setSelectedOption1(v.target.checked);
-      setSelectedOption2(false);
-      setSelectedOption3(false);
-      setSelectedOption4(false);
     } else {
       setSelectedOption1(v.target.checked);
     }
@@ -59,9 +54,6 @@ function Question5({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption2 = (v) => {
     if (v.target.checked) {
       setSelectedOption2(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption3(false);
-      setSelectedOption4(false);
     } else {
       setSelectedOption2(v.target.checked);
     }
@@ -70,9 +62,6 @@ function Question5({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption3 = (v) => {
     if (v.target.checked) {
       setSelectedOption3(v.target.checked);
-      setSelectedOption2(false);
-      setSelectedOption4(false);
-      setSelectedOption1(false);
     } else {
       setSelectedOption3(v.target.checked);
     }
@@ -81,9 +70,6 @@ function Question5({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption4 = (v) => {
     if (v.target.checked) {
       setSelectedOption4(v.target.checked);
-      setSelectedOption2(false);
-      setSelectedOption1(false);
-      setSelectedOption3(false);
     } else {
       setSelectedOption4(v.target.checked);
     }
@@ -114,32 +100,25 @@ function Question5({ setAnswers, answers, current, steps, next, prev }) {
 
   const onNextClick = () => {
     if (
-      selectedOption1 ||
-      selectedOption2 ||
-      selectedOption3 ||
+      selectedOption1 &&
+      selectedOption2 &&
+      selectedOption3 &&
       selectedOption4
     ) {
-      if (selectedOption1 && option1Answers.length <= 0) {
+      if (option1Answers.length <= 0) {
         message.error("Please add items to major expense list");
       } else {
         const a = [...answers];
         a[4] = {
           questionIndex: 4,
-          answerIndex: selectedOption1
-            ? 0
-            : selectedOption2
-            ? 1
-            : selectedOption3
-            ? 2
-            : 3,
           answer: "",
-          expenses: selectedOption1 ? option1Answers : [],
+          expenses: option1Answers,
         };
         setAnswers(a);
         next();
       }
     } else {
-      message.error("Please select an option, before moving forward");
+      message.error("Please select all options, before moving forward");
     }
   };
   return (

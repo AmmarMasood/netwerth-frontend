@@ -2,8 +2,7 @@ import axios from "axios";
 import { message } from "antd";
 
 const url = process.env.REACT_APP_BACKEND_URL;
-export const createAsset = (values) => {
-  console.log(values);
+export const createAsset = (values) =>
   axios
     .post(`${url}/assetRoutes/addAsset`, values)
     .then((res) => {
@@ -15,7 +14,6 @@ export const createAsset = (values) => {
         e.response?.data?.header?.message || "Error while creating pfs"
       );
     });
-};
 
 // getAssetByUser
 export const getAssetByUserId = (id) =>

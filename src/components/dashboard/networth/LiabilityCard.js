@@ -10,6 +10,7 @@ import {
   createLiability,
   getLiabilityByUserId,
 } from "../../../services/liability";
+import ArrowPointer from "../../../assets/images/arrow-pointer.svg";
 
 function LiabilitiesCard({ setTotalLiability }) {
   const [showModal, setShowModal] = useState(false);
@@ -18,7 +19,56 @@ function LiabilitiesCard({ setTotalLiability }) {
   const [total, setTotal] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [types, setTypes] = useState([]);
-  const [modalFields, setModalFields] = useState([]);
+  const [modalFields, setModalFields] = useState([
+    {
+      categoryName: "Loans",
+      fields: [
+        { fieldName: "Housing Loan", id: 2, value: "", ref: useRef(null) },
+        { fieldName: "Student Loan", id: 3, value: "", ref: useRef(null) },
+        { fieldName: "Car", id: 4, value: "", ref: useRef(null) },
+        { fieldName: "Personal", id: 5, value: "", ref: useRef(null) },
+        { fieldName: "Payday Loan", id: 6, value: "", ref: useRef(null) },
+      ],
+      id: 1,
+    },
+    {
+      categoryName: "Cards",
+      fields: [
+        { fieldName: "Credit Cards", id: 8, value: "", ref: useRef(null) },
+        { fieldName: "Store Cards", id: 9, value: "", ref: useRef(null) },
+      ],
+      id: 7,
+    },
+    {
+      categoryName: "Financed Purchases",
+      fields: [
+        { fieldName: "Appliances", id: 11, value: "", ref: useRef(null) },
+        { fieldName: "Furniture", id: 12, value: "", ref: useRef(null) },
+        { fieldName: "Phone", id: 13, value: "", ref: useRef(null) },
+        {
+          fieldName: "Clothing (Klarna?)",
+          id: 14,
+          value: "",
+          ref: useRef(null),
+        },
+      ],
+      id: 10,
+    },
+    {
+      categoryName: "Misc Debts",
+      fields: [
+        { fieldName: "Overdraft", id: 16, value: "", ref: useRef(null) },
+        { fieldName: "Back Bills", id: 17, value: "", ref: useRef(null) },
+        {
+          fieldName: "Money owed",
+          id: 18,
+          value: "",
+          ref: useRef(null),
+        },
+      ],
+      id: 15,
+    },
+  ]);
 
   const getUserLiabilityFromBackend = async () => {
     const res = await getLiabilityByUserId(localStorage.getItem("id"));
@@ -47,7 +97,7 @@ function LiabilitiesCard({ setTotalLiability }) {
     if (types && types.length > 0) {
       const total = types
         .filter((f) => f.fields.length > 0)
-        .map((t) => t.fields.map((t) => t.value))
+        .map((t) => t.fields.map((t) => (t.value ? t.value : 0)))
         .flat(1)
         .reduce((prev, current) => parseInt(prev) + parseInt(current));
       setTotal(total);
@@ -148,9 +198,15 @@ function LiabilitiesCard({ setTotalLiability }) {
   };
 
   const createLiabilityFromBack = async (values) => {
-    console.log("ammar", values);
-    const res = await createLiability({
+    const total = values
+      .filter((f) => f.fields.length > 0)
+      .map((t) => t.fields.map((t) => (t.value ? t.value : 0)))
+      .flat(1)
+      .reduce((prev, current) => parseInt(prev) + parseInt(current));
+
+    await createLiability({
       user: localStorage.getItem("id"),
+      total,
       liabilities: values.map((c) => ({
         ...c,
         fields: c.fields.map((d) => ({
@@ -160,11 +216,19 @@ function LiabilitiesCard({ setTotalLiability }) {
       })),
     });
     getUserLiabilityFromBackend();
-    console.log(res, "ammar");
+  };
+
+  const deleteType = (t) => {
+    const newt = types.filter((ty) => ty.id !== t.id);
+    const newm = modalFields.filter((ty) => ty.id !== t.id);
+    setModalFields(newm);
+    setTypes(newt);
+    createLiabilityFromBack(newm);
   };
 
   return (
     <div className="assetCard-container">
+      {console.log("modal fields", modalFields)}
       <MyModal
         visible={showModal}
         setVisible={setShowModal}
@@ -212,7 +276,7 @@ function LiabilitiesCard({ setTotalLiability }) {
               alt="play"
               style={{ marginRight: "10px" }}
             />
-            Video Trailer
+            Video Tutorial
           </span>
         </div>
         <div>
@@ -234,77 +298,104 @@ function LiabilitiesCard({ setTotalLiability }) {
         </div>
       </div>
       <div className="assetCard-options">
-        {types.map((t, i) => (
-          <div className="assetCard-option">
-            <h3>{t.categoryName}</h3>
-            <div className="assetCard-option-inner">
-              <div className="assetCard-option-inner-options">
-                {t.fields.map((f) => (
-                  <div
+        {types.length > 0 ? (
+          types.map((t, i) => (
+            <div className="assetCard-option">
+              <h3>{t.categoryName}</h3>
+              <div className="assetCard-option-inner">
+                <div className="assetCard-option-inner-options">
+                  {t.fields.map((f) => (
+                    <div
+                      style={{
+                        marginRight: "20px",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#8596A5",
+                          fontWeight: "500",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {f.fieldName}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: "#312B2B",
+                          fontWeight: "500",
+                        }}
+                      >
+                        £{f.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <span
                     style={{
-                      marginRight: "20px",
-                      display: "flex",
-                      flexDirection: "column",
+                      color: "#8596A5",
+                      fontSize: "12px",
+                      fontWeight: "500",
                     }}
                   >
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "#8596A5",
-                        fontWeight: "500",
-                      }}
-                    >
-                      {f.fieldName}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "14px",
-                        color: "#312B2B",
-                        fontWeight: "500",
-                      }}
-                    >
-                      £{f.value}
-                    </span>
+                    Actions
+                  </span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "5px",
+                    }}
+                  >
+                    <img
+                      style={{ marginRight: "5px", cursor: "pointer" }}
+                      src={MessageIcon}
+                      alt="edit"
+                      onClick={() => setShowModal(true)}
+                    />
+                    <img
+                      style={{ marginRight: "5px", cursor: "pointer" }}
+                      src={EditIcon}
+                      alt="edit"
+                      onClick={() => setShowModal(true)}
+                    />
+                    <img
+                      style={{ cursor: "pointer" }}
+                      src={DeleteIcon}
+                      alt="edit"
+                      onClick={() => deleteType(t)}
+                    />
                   </div>
-                ))}
-              </div>
-              <div>
-                <span
-                  style={{
-                    color: "#8596A5",
-                    fontSize: "12px",
-                    fontWeight: "500",
-                  }}
-                >
-                  Actions
-                </span>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "5px",
-                  }}
-                >
-                  <img
-                    style={{ marginRight: "5px", cursor: "pointer" }}
-                    src={MessageIcon}
-                    alt="edit"
-                  />
-                  <img
-                    style={{ marginRight: "5px", cursor: "pointer" }}
-                    src={EditIcon}
-                    alt="edit"
-                  />
-                  <img
-                    style={{ cursor: "pointer" }}
-                    src={DeleteIcon}
-                    alt="edit"
-                  />
                 </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <p
+              style={{
+                color: "#232358",
+                fontWeight: "700",
+                fontSize: "16px",
+                marginTop: "90px",
+                marginRight: "20px",
+              }}
+            >
+              Add your first Liability
+            </p>
+            <img src={ArrowPointer} alt="" />
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

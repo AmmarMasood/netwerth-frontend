@@ -14,27 +14,21 @@ function Question4({ setAnswers, answers, current, steps, next, prev }) {
 
   useEffect(() => {
     if (answers[3]) {
-      if (answers[3].answerIndex === 0) {
-        setSelectedOption1(true);
-      } else if (answers[3].answerIndex === 1) {
-        setSelectedOption2(true);
-      } else if (answers[3].answerIndex === 2) {
-        setSelectedOption3(true);
-      } else if (answers[3].answerIndex === 3) {
-        setSelectedOption4(true);
-      } else {
-        setSelectedOption5(true);
-      }
+      setSelectedOption1(true);
+
+      setSelectedOption2(true);
+
+      setSelectedOption3(true);
+
+      setSelectedOption4(true);
+
+      setSelectedOption5(true);
     }
   }, [answers]);
 
   const onChangeOption1 = (v) => {
     if (v.target.checked) {
       setSelectedOption1(v.target.checked);
-      setSelectedOption2(false);
-      setSelectedOption3(false);
-      setSelectedOption4(false);
-      setSelectedOption5(false);
     } else {
       setSelectedOption1(v.target.checked);
     }
@@ -43,10 +37,6 @@ function Question4({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption2 = (v) => {
     if (v.target.checked) {
       setSelectedOption2(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption3(false);
-      setSelectedOption4(false);
-      setSelectedOption5(false);
     } else {
       setSelectedOption2(v.target.checked);
     }
@@ -55,10 +45,6 @@ function Question4({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption3 = (v) => {
     if (v.target.checked) {
       setSelectedOption3(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption2(false);
-      setSelectedOption4(false);
-      setSelectedOption5(false);
     } else {
       setSelectedOption3(v.target.checked);
     }
@@ -67,10 +53,6 @@ function Question4({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption4 = (v) => {
     if (v.target.checked) {
       setSelectedOption4(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption2(false);
-      setSelectedOption3(false);
-      setSelectedOption5(false);
     } else {
       setSelectedOption4(v.target.checked);
     }
@@ -79,10 +61,6 @@ function Question4({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption5 = (v) => {
     if (v.target.checked) {
       setSelectedOption5(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption2(false);
-      setSelectedOption3(false);
-      setSelectedOption4(false);
     } else {
       setSelectedOption5(v.target.checked);
     }
@@ -90,31 +68,22 @@ function Question4({ setAnswers, answers, current, steps, next, prev }) {
 
   const onNextClick = () => {
     if (
-      selectedOption1 ||
-      selectedOption2 ||
-      selectedOption3 ||
-      selectedOption4 ||
+      selectedOption1 &&
+      selectedOption2 &&
+      selectedOption3 &&
+      selectedOption4 &&
       selectedOption5
     ) {
       const a = [...answers];
       a[3] = {
         questionIndex: 3,
-        answerIndex: selectedOption1
-          ? 0
-          : selectedOption2
-          ? 1
-          : selectedOption3
-          ? 2
-          : selectedOption4
-          ? 3
-          : 4,
         answer: "",
         expenses: [],
       };
       setAnswers(a);
       next();
     } else {
-      message.error("Please select an option, before moving forward");
+      message.error("Please select all options, before moving forward");
     }
   };
 

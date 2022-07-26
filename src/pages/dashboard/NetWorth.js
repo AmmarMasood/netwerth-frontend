@@ -17,6 +17,7 @@ import { getCurrentUser } from "../../services/auth";
 import { userInfoContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../services/users";
+import { format } from "date-fns";
 
 function NetWorth() {
   const [userInfo, setUserInfo] = useContext(userInfoContext);
@@ -32,9 +33,15 @@ function NetWorth() {
   const modalFields = [
     {
       fieldName: "goalWorth",
-      label: "Challenge Net Worth",
+      label: "I will have a networth of",
       ref: useRef(null),
       type: "number",
+    },
+    {
+      fieldName: "goalWorthTime",
+      label: "By",
+      ref: useRef(null),
+      type: "Date",
     },
   ];
 
@@ -46,10 +53,12 @@ function NetWorth() {
     await getCurrentUser(navigate, setUserInfo);
   };
   const handleCompleted = async (values) => {
-    console.log("ammar", values);
     if (localStorage.getItem("id")) {
       await updateUser(localStorage.getItem("id"), {
-        goalNetWorth: values[0].ref.current.input.value,
+        goalNetWorth: {
+          worth: values[0].ref.current.input.value,
+          date: values[1].ref.current.input.value,
+        },
       });
       console.log(values);
       setShowModal(false);
@@ -88,7 +97,10 @@ function NetWorth() {
             <h4
               style={{ fontSize: "16px", color: "#312B2B", fontWeight: "700" }}
             >
-              {userInfo.goalNetWorth}
+              £{userInfo.goalNetWorth.worth} by{" "}
+              {userInfo.goalNetWorth.date
+                ? format(new Date(userInfo.goalNetWorth.date), "MM/dd/yyyy")
+                : ""}
             </h4>
             <span style={{ fontSize: "12px", color: "#FD9125" }}>
               Share with friends

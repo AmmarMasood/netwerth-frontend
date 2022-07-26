@@ -14,19 +14,16 @@ function Question1({ setAnswers, answers, current, steps, next, prev }) {
 
   useEffect(() => {
     if (answers[0]) {
-      if (answers[0].answerIndex === 0) {
-        setSelectedOption1(true);
-      } else {
-        setSelectedOption2(true);
-        setOption1Answer(answers[0].answer);
-      }
+      setSelectedOption1(true);
+      setSelectedOption2(true);
+
+      setOption1Answer(answers[0].answer);
     }
   }, [answers]);
 
   const onChangeOption1 = (v) => {
     if (v.target.checked) {
       setSelectedOption1(v.target.checked);
-      setSelectedOption2(false);
     } else {
       setSelectedOption1(v.target.checked);
     }
@@ -35,29 +32,27 @@ function Question1({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption2 = (v) => {
     if (v.target.checked) {
       setSelectedOption2(v.target.checked);
-      setSelectedOption1(false);
     } else {
       setSelectedOption2(v.target.checked);
     }
   };
 
   const onNextClick = () => {
-    if (selectedOption1 || selectedOption2) {
-      if (selectedOption2 && !option1Answer) {
+    if (selectedOption1 && selectedOption2) {
+      if (!option1Answer) {
         message.error("Please enter date.");
       } else {
         const a = [...answers];
         a[0] = {
           questionIndex: 0,
-          answerIndex: selectedOption1 ? 0 : 1,
-          answer: selectedOption2 ? option1Answer : "",
+          answer: option1Answer,
           expenses: [],
         };
         setAnswers(a);
         next();
       }
     } else {
-      message.error("Please select an option, before moving forward");
+      message.error("Please select both option, before moving forward");
     }
   };
 

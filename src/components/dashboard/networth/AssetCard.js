@@ -7,6 +7,7 @@ import DeleteIcon from "../../../assets/images/delete-icon.svg";
 import SmallPlayIcon from "../../../assets/images/small-play-icon.svg";
 import MyModal from "../../modal/Modal";
 import { createAsset, getAssetByUserId } from "../../../services/asset";
+import ArrowPointer from "../../../assets/images/arrow-pointer.svg";
 
 function AssetCard({ setTotalAsset }) {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,51 @@ function AssetCard({ setTotalAsset }) {
   const [total, setTotal] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [types, setTypes] = useState([]);
-  const [modalFields, setModalFields] = useState([]);
+  const [modalFields, setModalFields] = useState([
+    {
+      categoryName: "Bank Accounts",
+      fields: [
+        { fieldName: "HSBC", id: 2, value: "", ref: useRef(null) },
+        { fieldName: "Barclays", id: 3, value: "", ref: useRef(null) },
+      ],
+      id: 1,
+    },
+    {
+      categoryName: "Investments",
+      fields: [
+        { fieldName: "Brokerage", id: 5, value: "", ref: useRef(null) },
+        { fieldName: "ISA", id: 6, value: "", ref: useRef(null) },
+        { fieldName: "Junior ISA", id: 7, value: "", ref: useRef(null) },
+      ],
+      id: 4,
+    },
+    {
+      categoryName: "Pensions",
+      fields: [
+        { fieldName: "Employeers", id: 9, value: "", ref: useRef(null) },
+        { fieldName: "Personal", id: 10, value: "", ref: useRef(null) },
+      ],
+      id: 8,
+    },
+    {
+      categoryName: "Business Ownership",
+      fields: [
+        { fieldName: "Company Stock", id: 12, value: "", ref: useRef(null) },
+        { fieldName: "PE", id: 13, value: "", ref: useRef(null) },
+        { fieldName: "ESOP", id: 14, value: "", ref: useRef(null) },
+      ],
+      id: 11,
+    },
+    {
+      categoryName: "Property",
+      fields: [
+        { fieldName: "Main Residence", id: 16, value: "", ref: useRef(null) },
+        { fieldName: "BTL", id: 17, value: "", ref: useRef(null) },
+        { fieldName: "Holiday", id: 18, value: "", ref: useRef(null) },
+      ],
+      id: 15,
+    },
+  ]);
 
   const getUserAssetFromBackend = async () => {
     const res = await getAssetByUserId(localStorage.getItem("id"));
@@ -44,7 +89,7 @@ function AssetCard({ setTotalAsset }) {
     if (types && types.length > 0) {
       const total = types
         .filter((f) => f.fields.length > 0)
-        .map((t) => t.fields.map((t) => t.value))
+        .map((t) => t.fields.map((t) => (t.value ? t.value : 0)))
         .flat(1)
         .reduce((prev, current) => parseInt(prev) + parseInt(current));
 
@@ -146,9 +191,15 @@ function AssetCard({ setTotalAsset }) {
   };
 
   const createAssets = async (values) => {
-    console.log("ammar", values);
-    const res = await createAsset({
+    const total = values
+      .filter((f) => f.fields.length > 0)
+      .map((t) => t.fields.map((t) => t.value))
+      .flat(1)
+      .reduce((prev, current) => parseInt(prev) + parseInt(current));
+
+    await createAsset({
       user: localStorage.getItem("id"),
+      total,
       assets: values.map((c) => ({
         ...c,
         fields: c.fields.map((d) => ({
@@ -157,8 +208,16 @@ function AssetCard({ setTotalAsset }) {
         })),
       })),
     });
+
     getUserAssetFromBackend();
-    console.log(res, "ammar");
+  };
+
+  const deleteType = (t) => {
+    const newt = types.filter((ty) => ty.id !== t.id);
+    const newm = modalFields.filter((ty) => ty.id !== t.id);
+    setModalFields(newm);
+    setTypes(newt);
+    createAssets(newm);
   };
   return (
     <div className="assetCard-container">
@@ -210,7 +269,7 @@ function AssetCard({ setTotalAsset }) {
               alt="play"
               style={{ marginRight: "10px" }}
             />
-            Video Trailer
+            Video Tutorial
           </span>
         </div>
         <div>
@@ -232,77 +291,103 @@ function AssetCard({ setTotalAsset }) {
         </div>
       </div>
       <div className="assetCard-options">
-        {types.map((t, i) => (
-          <div className="assetCard-option">
-            <h3>{t.categoryName}</h3>
-            <div className="assetCard-option-inner">
-              <div className="assetCard-option-inner-options">
-                {t.fields.map((f) => (
-                  <div
+        {types.length > 0 ? (
+          types.map((t, i) => (
+            <div className="assetCard-option">
+              <h3>{t.categoryName}</h3>
+              <div className="assetCard-option-inner">
+                <div className="assetCard-option-inner-options">
+                  {t.fields.map((f) => (
+                    <div
+                      style={{
+                        marginRight: "20px",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#8596A5",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {f.fieldName}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "14px",
+                          color: "#312B2B",
+                          fontWeight: "500",
+                        }}
+                      >
+                        £{f.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <span
                     style={{
-                      marginRight: "20px",
-                      display: "flex",
-                      flexDirection: "column",
+                      color: "#8596A5",
+                      fontSize: "12px",
+                      fontWeight: "500",
                     }}
                   >
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "#8596A5",
-                        fontWeight: "500",
-                      }}
-                    >
-                      {f.fieldName}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "14px",
-                        color: "#312B2B",
-                        fontWeight: "500",
-                      }}
-                    >
-                      £{f.value}
-                    </span>
+                    Actions
+                  </span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "5px",
+                    }}
+                  >
+                    <img
+                      style={{ marginRight: "5px", cursor: "pointer" }}
+                      src={MessageIcon}
+                      alt="edit"
+                      onClick={() => setShowModal(true)}
+                    />
+                    <img
+                      style={{ marginRight: "5px", cursor: "pointer" }}
+                      src={EditIcon}
+                      alt="edit"
+                      onClick={() => setShowModal(true)}
+                    />
+                    <img
+                      style={{ cursor: "pointer" }}
+                      src={DeleteIcon}
+                      alt="edit"
+                      onClick={() => deleteType(t)}
+                    />
                   </div>
-                ))}
-              </div>
-              <div>
-                <span
-                  style={{
-                    color: "#8596A5",
-                    fontSize: "12px",
-                    fontWeight: "500",
-                  }}
-                >
-                  Actions
-                </span>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "5px",
-                  }}
-                >
-                  <img
-                    style={{ marginRight: "5px", cursor: "pointer" }}
-                    src={MessageIcon}
-                    alt="edit"
-                  />
-                  <img
-                    style={{ marginRight: "5px", cursor: "pointer" }}
-                    src={EditIcon}
-                    alt="edit"
-                  />
-                  <img
-                    style={{ cursor: "pointer" }}
-                    src={DeleteIcon}
-                    alt="edit"
-                  />
                 </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <p
+              style={{
+                color: "#232358",
+                fontWeight: "700",
+                fontSize: "16px",
+                marginTop: "90px",
+                marginRight: "20px",
+              }}
+            >
+              Add your first Asset
+            </p>
+            <img src={ArrowPointer} alt="" />
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

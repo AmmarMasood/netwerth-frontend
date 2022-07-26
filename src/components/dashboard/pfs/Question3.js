@@ -13,22 +13,18 @@ function Question3({ setAnswers, answers, current, steps, next, prev }) {
 
   useEffect(() => {
     if (answers[2]) {
-      if (answers[2].answerIndex === 0) {
-        setSelectedOption1(true);
-        setOption1Answer(answers[2].answer);
-      } else if (answers[2].answerIndex === 1) {
-        setSelectedOption2(true);
-      } else {
-        setSelectedOption3(true);
-      }
+      setSelectedOption1(true);
+      setOption1Answer(answers[2].answer);
+
+      setSelectedOption2(true);
+
+      setSelectedOption3(true);
     }
   }, [answers]);
 
   const onChangeOption1 = (v) => {
     if (v.target.checked) {
       setSelectedOption1(v.target.checked);
-      setSelectedOption2(false);
-      setSelectedOption3(false);
     } else {
       setSelectedOption1(v.target.checked);
     }
@@ -37,8 +33,6 @@ function Question3({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption2 = (v) => {
     if (v.target.checked) {
       setSelectedOption2(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption3(false);
     } else {
       setSelectedOption2(v.target.checked);
     }
@@ -47,30 +41,28 @@ function Question3({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption3 = (v) => {
     if (v.target.checked) {
       setSelectedOption3(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption2(false);
     } else {
       setSelectedOption3(v.target.checked);
     }
   };
 
   const onNextClick = () => {
-    if (selectedOption1 || selectedOption2 || selectedOption3) {
+    if (selectedOption1 && selectedOption2 && selectedOption3) {
       const a = [...answers];
-      if (selectedOption1 && !option1Answer) {
+      if (!option1Answer) {
         message.error("Please enter % salary");
       } else {
         a[2] = {
           questionIndex: 2,
-          answerIndex: selectedOption1 ? 0 : selectedOption2 ? 1 : 2,
-          answer: selectedOption1 ? option1Answer : "",
+
+          answer: option1Answer,
           expenses: [],
         };
         setAnswers(a);
         next();
       }
     } else {
-      message.error("Please select an option, before moving forward");
+      message.error("Please select all options, before moving forward");
     }
   };
 

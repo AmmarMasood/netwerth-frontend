@@ -4,12 +4,10 @@ import { InlineWidget } from "react-calendly";
 import PleaseLogin from "../../components/dashboard/PleaseLogin";
 
 function Coaching() {
-  return localStorage.getItem("token") ? (
+  return (
     <div>
       <InlineWidget url="https://calendly.com/netwerth/coaching" />
     </div>
-  ) : (
-    <PleaseLogin pageName="coaching facility" />
   );
 }
 

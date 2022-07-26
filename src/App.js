@@ -14,6 +14,7 @@ import Signup from "./pages/signup/Signup";
 import { useContext, useEffect } from "react";
 import { getCurrentUser } from "./services/auth";
 import { userInfoContext } from "./context/UserContext";
+import Privacy from "./pages/Privacy";
 
 function App() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function App() {
       <Route element={<Login />} path="/login" exact />
       <Route element={<Signup />} path="/signup" exact />
       <Route element={<Main />} path="/dashboard" exact />
+      <Route element={<Privacy />} path="/privacy" exact />
       <Route element={<AdminMain />} path="/admin/dashboard" exact />
     </Routes>
   );

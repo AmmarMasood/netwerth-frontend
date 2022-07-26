@@ -12,21 +12,15 @@ function Question2({ setAnswers, answers, current, steps, next, prev }) {
 
   useEffect(() => {
     if (answers[1]) {
-      if (answers[1].answerIndex === 0) {
-        setSelectedOption1(true);
-      } else if (answers[1].answerIndex === 1) {
-        setSelectedOption2(true);
-      } else {
-        setSelectedOption3(true);
-      }
+      setSelectedOption1(true);
+      setSelectedOption2(true);
+      setSelectedOption3(true);
     }
   }, [answers]);
 
   const onChangeOption1 = (v) => {
     if (v.target.checked) {
       setSelectedOption1(v.target.checked);
-      setSelectedOption2(false);
-      setSelectedOption3(false);
     } else {
       setSelectedOption1(v.target.checked);
     }
@@ -35,8 +29,6 @@ function Question2({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption2 = (v) => {
     if (v.target.checked) {
       setSelectedOption2(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption3(false);
     } else {
       setSelectedOption2(v.target.checked);
     }
@@ -44,26 +36,23 @@ function Question2({ setAnswers, answers, current, steps, next, prev }) {
   const onChangeOption3 = (v) => {
     if (v.target.checked) {
       setSelectedOption3(v.target.checked);
-      setSelectedOption1(false);
-      setSelectedOption2(false);
     } else {
       setSelectedOption3(v.target.checked);
     }
   };
 
   const onNextClick = () => {
-    if (selectedOption1 || selectedOption2 || selectedOption3) {
+    if (selectedOption1 && selectedOption2 && selectedOption3) {
       const a = [...answers];
       a[1] = {
         questionIndex: 1,
-        answerIndex: selectedOption1 ? 0 : selectedOption2 ? 1 : 2,
         answer: "",
         expenses: [],
       };
       setAnswers(a);
       next();
     } else {
-      message.error("Please select an option, before moving forward");
+      message.error("Please select all option, before moving forward");
     }
   };
 

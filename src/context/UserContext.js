@@ -5,7 +5,12 @@ export const emptyUserConstants = {
   _id: "",
   name: "",
   email: "",
-  goalNetWorth: "",
+  goalNetWorth: {
+    worth: "",
+    date: "",
+  },
+  assets: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  liabilities: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 };
 
 const UserStore = ({ children }) => {
